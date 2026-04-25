@@ -1,0 +1,61 @@
+.statCard {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconWrapper svg {
+  width: 24px;
+  height: 24px;
+}
+
+.iconPink {
+  background: rgba(255, 113, 129, 0.15);
+  color: #ff7181;
+}
+
+.iconPurple {
+  background: rgba(147, 118, 255, 0.15);
+  color: #9376ff;
+}
+
+.iconOrange {
+  background: rgba(255, 167, 55, 0.15);
+  color: #ffa737;
+}
+
+.iconBlue {
+  background: rgba(55, 167, 255, 0.15);
+  color: #37a7ff;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #747a82;
+  margin: 0;
+}
