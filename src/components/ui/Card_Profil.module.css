@@ -1,0 +1,14 @@
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding-left: 52px;
+}
+
+.test {
+    font-family: Inter;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: 0px;
+}

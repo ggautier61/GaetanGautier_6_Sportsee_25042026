@@ -8,6 +8,7 @@ import { BarChart } from '@/components/charts/BarChart';
 import { getUserById } from '@/hooks/useUser';
 import { RunningData } from '@/models/user';
 import { Card_IA } from '@/components/ui/Card_IA';
+import Card_Profil from '@/components/ui/Card_Profil';
 
 function getLastWeekSessions(runningData: RunningData[]): RunningData[] {
   const today = new Date();
@@ -62,20 +63,19 @@ export default function Home() {
   return (
       <main className="pt-9" style={{maxWidth: "1140px",minHeight: '100vh' }}>
         <Header />
-        <div className="py-[108px] gap-[108px]">
-          <div>
-            <div>
+        <div className="flex flex-col py-[108px] px-[40px] gap-[108px]">
+          <div className='flex flex-col gap-[40px]'>
+            
               {/* card Conversation IA */}
               <Card_IA />
-            </div>
-            <div>
+
               {/* card Profil */}
-            </div>
+              <Card_Profil />
+            
+            
           </div>
 
-          <div>
-
-          </div>
+          
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
