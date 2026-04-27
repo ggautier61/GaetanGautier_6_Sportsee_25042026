@@ -55,3 +55,47 @@
   fill: #1a1a1a;
   font-weight: 500;
 }
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.weekSelector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.weekArrow {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #747a82;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weekArrow:hover:not(:disabled) {
+  background: #f5f5f5;
+}
+
+.weekArrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.weekLabel {
+  font-size: 12px;
+  color: #747a82;
+  min-width: 140px;
+  text-align: center;
+}

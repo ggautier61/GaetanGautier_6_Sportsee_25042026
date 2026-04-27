@@ -1,7 +1,12 @@
 .card {
-    background-color: #fff;
+    background: linear-gradient(to bottom, #fff 0%, var(--background) 100%);
     border-radius: 10px;
     padding-left: 52px;
+}
+
+.imgContainer {
+    width: 104px;
+    height: 117px;
 }
 
 .test {

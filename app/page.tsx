@@ -3,7 +3,6 @@
 import { Header } from '@/components/layout/Header';
 import { StatCard } from '@/components/ui/StatCard';
 import { Card } from '@/components/ui/Card';
-import { LineChart } from '@/components/charts/LineChart';
 import { BarChart } from '@/components/charts/BarChart';
 import { getUserById } from '@/hooks/useUser';
 import { RunningData } from '@/models/user';
@@ -72,8 +71,29 @@ export default function Home() {
               {/* card Profil */}
               <Card_Profil />
             
-            
           </div>
+
+          <section>
+            <h2 className="mb-[32px]">Vos dernières performances</h2>
+
+            <div className="flex gap-8" style={{ height: '484px'}}>
+              {/* Graphique Distance par semaine */}
+              <div style={{ width: '445px', height: '100%' }}>
+                <Card >
+                  <BarChart type="distance" title="18km en moyenne" />
+                </Card>
+
+              </div>
+
+              {/* Graphique Rythme cardiaque par jour */}
+              <div style={{ flex: 1 , height: '100%'}}>
+                <Card>
+                  <BarChart type="heartRate" title="Rythme cardiaque" />
+                </Card>
+              </div>
+            </div>
+
+          </section>
 
           
 
@@ -85,12 +105,8 @@ export default function Home() {
               <StatCard label="Durée" value={durationStr} icon="clock" />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-              <Card title="Progression">
-                <LineChart data={lineChartData} />
-              </Card>
-              <Card title="Fréquence cardiaque">
-                <BarChart data={barChartData} />
-              </Card>
+              
+              
             </div>
           </div>
         </div>
