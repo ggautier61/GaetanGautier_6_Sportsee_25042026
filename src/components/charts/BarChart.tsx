@@ -19,6 +19,7 @@ import { RechartsDevtools } from '@recharts/devtools';
 
 import styles from './BarChart.module.css';
 import runningData from '../../../mocks/data.json';
+import CustomLegend from './CustomLegend';
 
 type ChartType = 'distance' | 'heartRate';
 
@@ -155,6 +156,7 @@ function processHeartRateData(runningData: any[], weekOffset: number): ChartData
 
 export function BarChart({ type, title }: BarChartProps) {
   const [selectedWeek, setSelectedWeek] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   
   const data = type === 'distance' 
     ? processDistanceData(runningData[0].runningData)
@@ -194,12 +196,13 @@ export function BarChart({ type, title }: BarChartProps) {
         )}
       </div>
       <ResponsiveContainer width="100%" height={300}>
-        <ComposedChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }} height={300} >
+        <ComposedChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }} height={300} 
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
           <XAxis 
             dataKey="name" 
             tick={{ fontSize: 11, fill: '#747a82' }}
-            // axisLine={{ stroke: '#eee' }}
             axisLine={true}
             tickLine={false}
           />
@@ -207,18 +210,9 @@ export function BarChart({ type, title }: BarChartProps) {
             tick={{ fontSize: 11, fill: '#747a82' }}
             axisLine={true}
             tickLine={false}
-            // domain={[120, 190]}
           />
-          {/* <Tooltip 
-            contentStyle={{ 
-              backgroundColor: '#fff', 
-              border: '1px solid #eee', 
-              borderRadius: 4,
-              fontSize: 12,
-            }}
-          /> */}
-          <Legend align='left' fontSize={12}/>
-
+ 
+          <Legend content={<CustomLegend />} />
           {type === 'distance' ? (
             <Bar 
               dataKey="value" 
@@ -232,11 +226,14 @@ export function BarChart({ type, title }: BarChartProps) {
             <>
               <Bar 
                 dataKey="min" 
-                name="Min BPM"
+                name="Min"
                 fill="#FCC1B6" 
                 radius={[7, 7, 7, 7]}
                 barSize={14}
                 legendType='circle'
+                fontFamily='Inter'
+                fontSize={12}
+                fontWeight={400}
                 
               />
               <Bar 
@@ -247,24 +244,14 @@ export function BarChart({ type, title }: BarChartProps) {
                 barSize={14}
                 legendType='circle'
               />
-              {/* <Bar 
-                dataKey="moyMinus" 
-                name="FC Moy-"
-                fill="#4D96C8" 
-                radius={[7, 7, 7, 7]}
-                barSize={14}
-              /> */}
-              <Line type="monotone" dataKey="average" name="Average BPM" />
-              <RechartsDevtools />
+              <Line type="monotone" 
+                  dataKey="average" 
+                  name="Average BPM" 
+                  stroke={isHovered ? "#0B23F4" : "#F2F3FF"}
+                  strokeWidth={3}
+                  dot={{ stroke: "white", fill: "#0B23F4", strokeWidth: 1, r: 4 }}
+                  activeDot={{ stroke: "#0B23F4", fill: "#0B23F4", r: 4 }} />
               
-              {/* <Bar 
-                dataKey="min" 
-                name="FC Min"
-                fill="#FCC1B6" 
-                radius={[4, 4, 0, 0]}
-                barSize={14}
-              /> */}
-              {/* <ReferenceLine y={160} stroke="#4CAF50" strokeDasharray="5 5" label={{ value: 'Zone cible', fontSize: 10, fill: '#4CAF50' }} /> */}
             </>
           )}
 

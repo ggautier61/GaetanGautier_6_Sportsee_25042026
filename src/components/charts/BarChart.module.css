@@ -45,6 +45,8 @@
   filter: brightness(0.9);
 }
 
+
+
 .barLabel {
   font-size: 10px;
   fill: #747a82;
@@ -98,4 +100,12 @@
   color: #747a82;
   min-width: 140px;
   text-align: center;
+}
+
+.chart-line path{
+  transition: stroke 0.2s ease;
+}
+
+.chart-line:hover path{
+  stroke: #ef4444;
 }
