@@ -1,0 +1,108 @@
+import { Pie, PieChart, Sector, PieSectorDataItem, Tooltip, TooltipIndex, ResponsiveContainer } from 'recharts';
+import { RechartsDevtools } from '@recharts/devtools';
+
+// #region Sample data
+const data = [
+  { name: 'restants', value: 2 },
+  { name: 'realisés', value: 4 },
+];
+
+// #endregion
+const renderActiveShape = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  startAngle,
+  endAngle,
+  fill,
+  payload,
+  percent,
+  value,
+}: PieSectorDataItem) => {
+  const RADIAN = Math.PI / 180;
+  const sin = Math.sin(-RADIAN * (midAngle ?? 1));
+  const cos = Math.cos(-RADIAN * (midAngle ?? 1));
+  const sx = (cx ?? 0) + ((outerRadius ?? 0) + 10) * cos;
+  const sy = (cy ?? 0) + ((outerRadius ?? 0) + 10) * sin;
+  const mx = (cx ?? 0) + ((outerRadius ?? 0) + 30) * cos;
+  const my = (cy ?? 0) + ((outerRadius ?? 0) + 30) * sin;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+  const ey = my;
+  const textAnchor = cos >= 0 ? 'start' : 'end';
+
+  
+
+  return (
+    <g>
+      <Sector
+        cx={cx}
+        cy={cy}
+        radius={7}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={payload.name === 'realisés' ? "var(--bluesportsee)" : "var(--blueclairsportsee)"}
+      />
+
+
+       
+           <circle cx={textAnchor === 'start' ? ex - 12 : ex - 80} cy={ey - 5} r={6} 
+               fill={payload.name === 'realisés' ? "var(--bluesportsee)" : "var(--blueclairsportsee)"} stroke="none" />
+           <text x={ex} y={ey} textAnchor={textAnchor} fill={fill}>
+               {value} {payload.name}
+           </text>
+
+     
+      
+    </g>
+  );
+};
+
+export default function CustomActiveShapePieChart({
+  isAnimationActive = true,
+  defaultIndex = undefined,
+}: {
+  isAnimationActive?: boolean;
+  defaultIndex?: TooltipIndex;
+}) {
+  return (
+  
+    <ResponsiveContainer width={500} height={500}>
+
+
+      <PieChart
+        style={{ width: '100%', maxWidth: '500px', maxHeight: '80vh', aspectRatio: 1 }}
+        responsive
+
+
+        // margin={{
+        //   top: 50,
+        //   right: 120,
+        //   bottom: 0,
+        //   left: 120,
+        // }}
+      >
+        <Pie
+          cornerRadius="50%"
+          shape={renderActiveShape}
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius="40%"
+          outerRadius="70%"
+          fill="var(--grissportsee)"
+          dataKey="value"
+          isAnimationActive={isAnimationActive}
+        />
+        {/* <Tooltip content={() => null} defaultIndex={defaultIndex} /> */}
+        <RechartsDevtools />
+      </PieChart>
+
+
+    </ResponsiveContainer>
+
+  );
+}

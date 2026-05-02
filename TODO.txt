@@ -1,3 +1,5 @@
 Reste à faire avant livraison
 
 - Vérifier la police utilisée
+- Ajuster taille graphiques
+- Bug légende average graphique Heart, au hover la légende apparait

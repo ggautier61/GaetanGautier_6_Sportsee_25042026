@@ -4,8 +4,9 @@
   --background: #F2F3FF;
   --foreground: black;
   --bluesportsee: #0B23F4;
-  --grissoprtsee: #707070;
-  ;
+  --blueclairsportsee: #B6BDFC;
+  --grissportsee: #707070;
+  
 }
 
 @theme inline {

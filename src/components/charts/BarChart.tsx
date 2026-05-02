@@ -1,25 +1,25 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import { useState } from 'react';
 import {
   ComposedChart,
   Bar,
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
   ResponsiveContainer,
-  ReferenceLine,
   Line,
-  LineChart,
   
 } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
 
+
 import styles from './BarChart.module.css';
 import runningData from '../../../mocks/data.json';
 import CustomLegend from './CustomLegend';
+import Image from "next/image";
+
 
 type ChartType = 'distance' | 'heartRate';
 
@@ -182,7 +182,7 @@ export function BarChart({ type, title }: BarChartProps) {
               onClick={() => setSelectedWeek(prev => prev + 1)}
               // disabled={selectedWeek >= 10}
             >
-              ←
+              <Image src="/assets/arrow-left.png" width={4} height={8} alt="Précédent" />
             </button>
             <span className={styles.weekLabel}>{formatWeekRange(selectedWeek)}</span>
             <button 
@@ -190,13 +190,13 @@ export function BarChart({ type, title }: BarChartProps) {
               onClick={() => setSelectedWeek(prev => prev - 1)}
               disabled={selectedWeek === 0}
             >
-              →
+              <Image src="/assets/arrow-right.png" width={4} height={8} alt="Suivant" />
             </button>
           </div>
         )}
       </div>
-      <ResponsiveContainer width="100%" height={300}>
-        <ComposedChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }} height={300} 
+      <ResponsiveContainer width="100%" height={ '100%' }>
+        <ComposedChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
@@ -212,11 +212,12 @@ export function BarChart({ type, title }: BarChartProps) {
             tickLine={false}
           />
  
-          <Legend content={<CustomLegend />} />
+          <Legend />
+          {/* <Legend content={<CustomLegend />} /> */}
           {type === 'distance' ? (
             <Bar 
               dataKey="value" 
-              name="km"
+              name="Km"
               fill="#B6BDFC" 
               legendType='circle'
               radius={[7, 7, 7, 7]}
@@ -247,13 +248,15 @@ export function BarChart({ type, title }: BarChartProps) {
               <Line type="monotone" 
                   dataKey="average" 
                   name="Average BPM" 
-                  stroke={isHovered ? "#0B23F4" : "#F2F3FF"}
+                  stroke={isHovered ? "#0B23F4" : "grey"}
                   strokeWidth={3}
                   dot={{ stroke: "white", fill: "#0B23F4", strokeWidth: 1, r: 4 }}
                   activeDot={{ stroke: "#0B23F4", fill: "#0B23F4", r: 4 }} />
               
             </>
           )}
+          
+          <RechartsDevtools />
 
         </ComposedChart>
       </ResponsiveContainer>

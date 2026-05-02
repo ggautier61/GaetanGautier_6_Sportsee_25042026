@@ -11,7 +11,7 @@ export function Card_Profil() {
         </div>
         <div className="flex flex-col gap-1 justify-center">
             <h2 style={{fontSize: '22px'}}>Clara Dupont</h2>
-            <p style={{fontSize: '14px', color: 'var(--grissoprtsee)'}}>Membre depuis le 14 juin 2023</p>
+            <p style={{fontSize: '14px', color: 'var(--grissportsee)'}}>Membre depuis le 14 juin 2023</p>
         </div>
       </div>
 

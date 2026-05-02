@@ -13,7 +13,9 @@ const CustomLegend = (props: any) => {
         <li key={index} className="flex items-center gap-2">
           <span
             style={{
-              backgroundColor: entry.color,
+              backgroundColor: entry.color, 
+
+              //backgroundColor: `${entry.dataKey} === "average" ? "blue" : ${entry.color}`, 
               width: 8,
               height: 8,
               borderRadius: "50%",
