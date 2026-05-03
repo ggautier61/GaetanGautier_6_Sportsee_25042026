@@ -1,5 +1,6 @@
 import styles from './Header.module.css';
 import Image from "next/image";
+import Link from "next/link";
 
 
 export function Header() {
@@ -15,9 +16,15 @@ export function Header() {
 
         <nav className='p-3 px-6' style={{backgroundColor: 'white',height: '100%', borderRadius: '25px'}}>
           <ul className="flex gap-8">
-            <li>Dashboard</li>
-            <li>Coach AI</li>
-            <li>Mon profil</li>
+            <li>
+              <Link href="/">Dashboard</Link>
+            </li>
+            <li>
+              <Link href="/coach-ai">Coach AI</Link>
+            </li>
+            <li>
+              <Link href="/profil">Mon profil</Link>
+            </li>
             <li>|</li>
             <li style={{color: 'blue'}}>Se déconnecter</li>
           </ul>

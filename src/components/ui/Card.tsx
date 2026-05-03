@@ -7,7 +7,7 @@ interface CardProps {
   style?: React.CSSProperties;
 }
 
-export function Card({ children, className = '', style}: CardProps) {
+export function Card({ children, className = 'bg-[white]', style}: CardProps) {
   return (
     <div className={`${styles.card} ${className}`} style={style}>
       <div className={styles.cardContent}>{children}</div>

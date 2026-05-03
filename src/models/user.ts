@@ -63,6 +63,12 @@ export class UserModel implements User {
   getTotalCalories(): number {
     return this.runningData.reduce((sum, s) => sum + s.caloriesBurned, 0);
   }
+
+  getTempsTotalCouru(): number {
+    if (!this) return 0;
+    const totalMinutes = this.runningData.reduce((acc, s) => acc + s.duration, 0);
+    return totalMinutes;
+  };
 }
 
 export default User;

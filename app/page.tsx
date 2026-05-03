@@ -13,6 +13,8 @@ import { Footer } from '@/components/layout/Footer';
 import CellPieExample from '@/components/charts/Pie';
 import CustomActiveShapePieChart from '@/components/charts/Pie';
 import { WeekSelector } from '@/components/ui/Week_Selector';
+import Card_Distance from '@/components/ui/Card_Distance';
+
 
 function getLastWeekSessions(runningData: RunningData[]): RunningData[] {
   const today = new Date();
@@ -63,12 +65,20 @@ function prepareHeartRateData(runningData: RunningData[]) {
   }));
 }
 
+function formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
 export default function Home() {
   const user = getUserById('user123');
 
   if (!user) {
     return <p>Utilisateur non trouvé</p>;
   }
+
+  const memberSince = user.createdAt ? formatDate(user.createdAt) : 'Date inconnue';
+  const fullName = `${user.firstName} ${user.lastName}`;
 
   const getWeekDatesString = () => {
      const today = new Date();
@@ -88,6 +98,7 @@ export default function Home() {
 
    //Somme des kilomètres parcourus cette semaine
    const totalDistanceThisWeek = getThisWeekSessions(user.runningData).reduce((sum, s) => sum + s.distance, 0);
+   const  totalDistance = user.runningData.reduce((sum, s) => sum + s.distance, 0);
 
    
 
@@ -109,7 +120,6 @@ export default function Home() {
   const lineChartData = prepareLineChartData(user.runningData, user.weeklyGoal || 2);
   const barChartData = prepareHeartRateData(user.runningData);
 
-  const userName = `${user.firstName} ${user.lastName}`;
 
   return (
     <div className="flex flex-col items-center">
@@ -122,7 +132,12 @@ export default function Home() {
               <Card_IA />
 
               {/* card Profil */}
-              <Card_Profil />
+              <Card className='bg-[white] px-[52px] py-[32px]'>
+                <div className='flex items-center justify-between'>
+                  <Card_Profil fullName={fullName} memberSince={memberSince} />
+                  <Card_Distance distance={totalDistance} />
+                </div>
+              </Card>
             
           </div>
 
@@ -132,7 +147,7 @@ export default function Home() {
             <div className="flex gap-8" style={{ height: '484px'}}>
               {/* Graphique Distance par semaine */}
               <div style={{ width: '445px', height: '100%' }}>
-                <Card className="px-[40px] py-4">
+                <Card className="bg-[white] px-[40px] py-4">
 
                   <div className='flex flex-col justify-between h-full'>
                     <div className='flex flex-col'>
@@ -156,7 +171,7 @@ export default function Home() {
 
               {/* Graphique Rythme cardiaque par jour */}
               <div style={{ flex: 1 , height: '100%'}}>                 
-                <Card className="px-[40px] py-4">
+                <Card className="bg-[white] px-[40px] py-4">
                   <div className='flex flex-col justify-between h-full'>
                     <div className='flex flex-col'>
                       <div className="flex items-center justify-between" style={{ height: '48px' }}>
@@ -189,7 +204,7 @@ export default function Home() {
 
             <div className="flex w-full gap-8" style={{height: "342px"}}>
               <div style={{ width: '445px', height: '100%' }}>
-                <Card className="px-[38px] py-4">
+                <Card className="bg-[white] px-[38px] py-4">
                   <div className='flex flex-col justify-between h-full'>
                     <div className='flex flex-col'>
                       <div className="flex items-center gap-2" style={{ height: '48px' }}>
@@ -208,22 +223,22 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col gap-8" style={{ flex: 1 }}>
-                <Card className='px-[30px] py-5 flex flex-col justify-between' style={{height: 'auto'}}>
+                <Card className='bg-[white] px-[30px] py-5 flex flex-col justify-between' style={{height: 'auto'}}>
                     <div style={{fontSize: 14, color:'var(--grissportsee)'}}>
                       Durée d&apos;activité
                     </div>
-                    <div className='flex gap-2 items-end'>
+                    <div className='flex gap-2 items-center'>
                       <div style={{fontSize: 22, fontWeight: 500, color:'var(--bluesportsee)'}}>{totalTempsActiviteThisWeek}</div>
                       <div style={{fontSize: 16, fontWeight: 500, color:'var(--blueclairsportsee)'}}>minutes</div>
                     </div>
                   
                 </Card>
 
-                <Card className='px-[30px] py-5 flex flex-col justify-between' style={{height: 'auto'}}>
+                <Card className='bg-[white] px-[30px] py-5 flex flex-col justify-between' style={{height: 'auto'}}>
                     <div style={{fontSize: 14, color:'var(--grissportsee)'}}>
                       Distance
                     </div>
-                    <div className='flex gap-2 items-end'>
+                    <div className='flex gap-2 items-center'>
                       <div style={{fontSize: 22, fontWeight: 500, color:'var(--rougesportsee)'}}>{totalDistanceThisWeek}</div>
                       <div style={{fontSize: 16, fontWeight: 500, color:'var(--rougeclairsportsee)'}}>kilomètres</div>
                     </div>

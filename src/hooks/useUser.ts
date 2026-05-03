@@ -28,6 +28,7 @@ interface UseUserReturn {
   getAverageHeartRate: () => number;
   getTotalCalories: () => number;
   getTotalDuration: () => string;
+  getTempsTotalCouru: () => number;
 }
 
 export function useUser(userId?: string): UseUserReturn {
@@ -85,6 +86,12 @@ export function useUser(userId?: string): UseUserReturn {
     return hours > 0 ? `${hours}h${mins}` : `${mins}m`;
   };
 
+  const getTempsTotalCouru = (): number => {
+    if (!user) return 0;
+    const totalMinutes = user.runningData.reduce((acc, s) => acc + s.duration, 0);
+    return totalMinutes;
+  };
+
   return {
     user,
     loading,
@@ -93,6 +100,7 @@ export function useUser(userId?: string): UseUserReturn {
     getAverageHeartRate,
     getTotalCalories,
     getTotalDuration,
+    getTempsTotalCouru
   };
 }
 
