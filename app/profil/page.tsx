@@ -1,6 +1,7 @@
 'use client';
 
 import { Header } from '@/components/layout/Header';
+import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import Card_Profil from '@/components/ui/Card_Profil';
 import Card_Stats from '@/components/ui/Card_Stats';
@@ -19,6 +20,7 @@ function formatGender(gender: string): string {
 
 
 export default function ProfilPage() {
+  const router = useRouter();
   const user = getUserById('user123');
 
   if (!user) {
@@ -33,7 +35,7 @@ export default function ProfilPage() {
   return (
     <div className="flex flex-col items-center">
       <main className="pt-9" style={{ width: '1140px', maxWidth: '1140px', minHeight: '100vh' }}>
-        <Header />
+        <Header isAuthenticated={true} onLogout={() => router.push('/login')} />
 
         <div className="py-[108px] px-[40px] flex gap-[57px] min-h-[calc(100vh-200px)]">
 

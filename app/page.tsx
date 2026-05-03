@@ -1,6 +1,7 @@
 'use client';
 
 import { Header } from '@/components/layout/Header';
+import { useRouter } from 'next/navigation';
 import { StatCard } from '@/components/ui/StatCard';
 import { Card } from '@/components/ui/Card';
 import { BarChart } from '@/components/charts/BarChart';
@@ -71,6 +72,7 @@ function formatDate(dateStr: string): string {
 }
 
 export default function Home() {
+  const router = useRouter();
   const user = getUserById('user123');
 
   if (!user) {
@@ -124,7 +126,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center">
       <main className="pt-9" style={{width: "1140px", maxWidth: "1140px",minHeight: '100vh' }}>
-        <Header />
+        <Header isAuthenticated={true} onLogout={() => router.push('/login')} />
         <div className="flex flex-col py-[108px] px-[40px] gap-[108px]">
           <div className='flex flex-col gap-[40px]'>
             
