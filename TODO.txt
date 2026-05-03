@@ -1,5 +1,8 @@
 Reste à faire avant livraison
 
-- Vérifier la police utilisée
 - Ajuster taille graphiques
 - Bug légende average graphique Heart, au hover la légende apparait
+- Voir pour flèches période précédente date (ajustement design)
+- Ajout sélection période pour graphe distance
+- Voir titre des graphiques + calcul
+- section "cette semaine", voir pour ajouter dynamiquement la semaine actuelle

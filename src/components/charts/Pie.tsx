@@ -1,10 +1,13 @@
 import { Pie, PieChart, Sector, PieSectorDataItem, Tooltip, TooltipIndex, ResponsiveContainer } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
+import { getUserById } from '@/hooks/useUser';
+
+const user = getUserById('user123');
 
 // #region Sample data
 const data = [
-  { name: 'restants', value: 2 },
-  { name: 'realisés', value: 4 },
+  { name: 'restants', value: user?.weeklyGoal ? 6 - user.weeklyGoal : 0 },
+  { name: 'realisés', value: user?.weeklyGoal ? user.weeklyGoal : 0 },
 ];
 
 // #endregion
