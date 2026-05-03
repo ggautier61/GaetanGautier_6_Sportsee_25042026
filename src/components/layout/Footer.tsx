@@ -6,8 +6,8 @@ import Image from "next/image";
 export function Footer() {
 
     return (
-    <footer className="flex justify-between items-center w-full px-[100px] py-[12px]" style={{height: '40px', fontFamily: 'Inter', fontSize: 14, fontWeight: 400, backgroundColor: 'white'}}>
-        <div style={{fontFamily: "Inter", fontWeight: 400, fontSize: 14}}>© Sportsee  Tous droits réservés</div>
+    <footer className="flex justify-between items-center w-full px-[100px] py-[12px]" style={{height: '40px', fontSize: 14, fontWeight: 400, backgroundColor: 'white'}}>
+        <div style={{fontWeight: 400, fontSize: 14}}>© Sportsee  Tous droits réservés</div>
         <div className="flex">
             <Link href="/" className="ml-4">
                 Conditions générales

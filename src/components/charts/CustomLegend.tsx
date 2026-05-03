@@ -22,7 +22,7 @@ const CustomLegend = (props: any) => {
               display: "inline-block",
             }}
           />
-          <span style={{ color: '#707070', fontFamily: 'Inter', fontSize: 12, fontWeight: 400 }}>{entry.value}</span>
+          <span style={{ color: 'var(--grissportsee)', fontSize: 12, fontWeight: 400 }}>{entry.value}</span>
         </li>
       ))}
     </ul>

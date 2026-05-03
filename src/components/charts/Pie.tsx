@@ -49,9 +49,9 @@ const renderActiveShape = ({
 
 
        
-           <circle cx={textAnchor === 'start' ? ex - 12 : ex - 80} cy={ey - 5} r={6} 
+           <circle cx={textAnchor === 'start' ? ex - 12 : ex - 115} cy={ey - 5} r={6} 
                fill={payload.name === 'realisés' ? "var(--bluesportsee)" : "var(--blueclairsportsee)"} stroke="none" />
-           <text x={ex} y={ey} textAnchor={textAnchor} fill={fill}>
+           <text x={ex} y={ey} textAnchor={textAnchor} fill={fill} fontSize={22}>
                {value} {payload.name}
            </text>
 
@@ -74,7 +74,7 @@ export default function CustomActiveShapePieChart({
 
 
       <PieChart
-        style={{ width: '100%', maxWidth: '500px', maxHeight: '80vh', aspectRatio: 1 }}
+        style={{ width: '100%', maxWidth: '500px', maxHeight: '200px', aspectRatio: 3/1 }}
         responsive
 
 
@@ -86,13 +86,13 @@ export default function CustomActiveShapePieChart({
         // }}
       >
         <Pie
-          cornerRadius="50%"
+          cornerRadius={10}
           shape={renderActiveShape}
           data={data}
           cx="50%"
           cy="50%"
-          innerRadius="40%"
-          outerRadius="70%"
+          innerRadius="30%"
+          outerRadius="60%"
           fill="var(--grissportsee)"
           dataKey="value"
           isAnimationActive={isAnimationActive}

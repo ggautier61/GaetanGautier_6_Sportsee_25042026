@@ -10,7 +10,7 @@ const Card_Distance: React.FC<Card_DistanceProps> = ({ distance }) => {
     <div className='flex items-center gap-4' style={{ height: '90px' }}>
       <p style={{color: 'var(--grissportsee)', fontSize: '14px'}}>Distance totale parcourue</p>
       <div className="flex items-center gap-4 h-full" 
-        style={{ backgroundColor: 'var(--bluesportsee)', color: 'white', borderRadius: '10px', padding: '28px', fontFamily: 'Inter', fontSize: '22px' }}>
+        style={{ backgroundColor: 'var(--bluesportsee)', color: 'white', borderRadius: '10px', padding: '28px', fontSize: '22px' }}>
         <Image src="/assets/Icon_Distance.png" alt="Icon Distance" width={34} height={34} />
         <p className="distance-value">{distance} km</p>
 

@@ -102,49 +102,59 @@ export default function Home() {
 
           <section>
             <div className="mb-[32px]">
-              <h2 style={{fontFamily: "Inter", fontWeight: 500, fontSize:"22px"}}>Cette semaine</h2>
-              <p style={{fontFamily: "Inter", fontWeight: 500, fontSize:"16px", color: 'var(--grissportsee'}}>Du 27/04/2026 au 03/04/2026</p>
+              <h2 style={{fontWeight: 500, fontSize:22}}>Cette semaine</h2>
+              <p style={{fontWeight: 500, fontSize:16, color: 'var(--grissportsee'}}>Du 27/04/2026 au 03/04/2026</p>
             </div>
 
-            <div className="flex w-full gap-8">
+            <div className="flex w-full gap-8" style={{height: "342px"}}>
               <div style={{ width: '445px', height: '100%' }}>
-                <Card>
-                  {/* <ObjectivePieChart achieved={4} remaining={2} /> */}
-                  <CustomActiveShapePieChart />
+                <Card className="px-[38px] py-4">
+                  <div className='flex flex-col justify-between h-full'>
+                    <div className='flex flex-col'>
+                      <div className="flex items-center gap-2" style={{ height: '48px' }}>
+                        <div style={{ fontSize: 28, fontWeight: 600, color: 'var(--bluesportsee)' }}>x4</div>
+                        <div style={{ fontSize: 16, fontWeight: 500, color: 'var(--blueclairsportsee)' }}>sur objectifs de 6</div>
+                      </div>
+                      <p style={{fontSize:14, color: 'var(--grissportsee)'}}>
+                        Courses hebdomadaire réalisées
+                      </p>
+                    </div>
+                    <CustomActiveShapePieChart />
+
+                  </div>
                 </Card>
 
               </div>
+
               <div className="flex flex-col gap-8" style={{ flex: 1 }}>
-                <Card>
-                  <p>Card 1</p>
+                <Card className='px-[30px] py-5 flex flex-col justify-between' style={{height: 'auto'}}>
+                    <div style={{fontSize: 14, color:'var(--grissportsee)'}}>
+                      Durée d'activité
+                    </div>
+                    <div className='flex gap-2 items-end'>
+                      <div style={{fontSize: 22, fontWeight: 500, color:'var(--bluesportsee)'}}>140</div>
+                      <div style={{fontSize: 16, fontWeight: 500, color:'var(--blueclairsportsee)'}}>minutes</div>
+                    </div>
+                  
                 </Card>
-                <Card>
-                  <p>Card 2</p>
+
+                <Card className='px-[30px] py-5 flex flex-col justify-between' style={{height: 'auto'}}>
+                    <div style={{fontSize: 14, color:'var(--grissportsee)'}}>
+                      Distance
+                    </div>
+                    <div className='flex gap-2 items-end'>
+                      <div style={{fontSize: 22, fontWeight: 500, color:'var(--rougesportsee)'}}>21.7</div>
+                      <div style={{fontSize: 16, fontWeight: 500, color:'var(--rougeclairsportsee)'}}>kilomètres</div>
+                    </div>
+                  
                 </Card>
               </div>
             </div>
 
-
-            
           </section>
-          
 
-          {/* <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
-              <StatCard label="Séanches" value={sessionCount} icon="activity" />
-              <StatCard label="FC moy" value={`${avgHeartRate} bpm`} icon="heart" />
-              <StatCard label="Calories" value={`${totalCalories} kcal`} icon="flame" />
-              <StatCard label="Durée" value={durationStr} icon="clock" />
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-              
-              
-            </div>
-          </div> */}
         </div>
       </main>
-      
-      {/* <Footer /> */}
 
     </div>
   );

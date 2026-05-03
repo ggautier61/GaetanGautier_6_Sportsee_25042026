@@ -228,11 +228,10 @@ export function BarChart({ type, title }: BarChartProps) {
               <Bar 
                 dataKey="min" 
                 name="Min"
-                fill="#FCC1B6" 
+                fill="var(--rougeclairsportsee)" 
                 radius={[7, 7, 7, 7]}
                 barSize={14}
                 legendType='circle'
-                fontFamily='Inter'
                 fontSize={12}
                 fontWeight={400}
                 
@@ -240,7 +239,7 @@ export function BarChart({ type, title }: BarChartProps) {
               <Bar 
                 dataKey="max" 
                 name="Max BPM"
-                fill="#F4320B" 
+                fill="var(--rougesportsee)" 
                 radius={[7, 7, 7, 7]}
                 barSize={14}
                 legendType='circle'
