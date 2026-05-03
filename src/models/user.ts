@@ -64,11 +64,42 @@ export class UserModel implements User {
     return this.runningData.reduce((sum, s) => sum + s.caloriesBurned, 0);
   }
 
-  getTempsTotalCouru(): number {
-    if (!this) return 0;
+  getTempsTotalCouru(): { hours: number; minutes: number } {
+    if (!this) return { hours: 0, minutes: 0 };
     const totalMinutes = this.runningData.reduce((acc, s) => acc + s.duration, 0);
-    return totalMinutes;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return { hours, minutes };
   };
+
+  getTotalSessions(): number {
+    return this.runningData.length;
+  }
+
+
+  getJoursSansCourse(): number {
+    if (!this.createdAt) return 0;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const startDate = new Date(this.createdAt);
+    startDate.setHours(0, 0, 0, 0);
+
+    const totalDays = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+    const uniqueRunDays = new Set(
+      this.runningData
+        .map((s) => {
+          const d = new Date(s.date);
+          d.setHours(0, 0, 0, 0);
+          return d.getTime();
+        })
+        .filter((time) => time >= startDate.getTime() && time <= today.getTime())
+    );
+
+    return totalDays - uniqueRunDays.size;
+  }
 }
 
 export default User;

@@ -222,7 +222,7 @@ export default function Home() {
 
               </div>
 
-              <div className="flex flex-col gap-8" style={{ flex: 1 }}>
+              <div className="flex flex-col gap-4" style={{ flex: 1 }}>
                 <Card className='bg-[white] px-[30px] py-5 flex flex-col justify-between' style={{height: 'auto'}}>
                     <div style={{fontSize: 14, color:'var(--grissportsee)'}}>
                       Durée d&apos;activité
