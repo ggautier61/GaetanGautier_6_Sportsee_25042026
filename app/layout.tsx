@@ -31,9 +31,8 @@ export default function RootLayout({
       lang="fr"
       className={`${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col items-center">
+      <body className="min-h-[100vh] h-[100vh] flex flex-col items-center">
         {children}
-        <Footer />
       </body>
     </html>
   );

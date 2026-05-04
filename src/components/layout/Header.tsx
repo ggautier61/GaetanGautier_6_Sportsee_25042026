@@ -19,11 +19,11 @@ export function Header({ isAuthenticated = false, onLogout }: HeaderProps) {
           <Image src="/assets/logo_Sportsee.png" alt="Sportsee" height={23} width={157} />
         </div>
 
-        {isAuthenticated ?? (
+        {isAuthenticated ? (
           <nav className='p-3 px-6' style={{backgroundColor: 'white',height: '100%', borderRadius: '25px'}}>
             <ul className="flex gap-8">
               <li>
-                <Link href="/">Dashboard</Link>
+                <Link href="/dashboard">Dashboard</Link>
               </li>
               <li>
                 <Link href="/coach-ai">Coach AI</Link>
@@ -34,6 +34,10 @@ export function Header({ isAuthenticated = false, onLogout }: HeaderProps) {
               <li>|</li>
               <li style={{color: 'blue', cursor: 'pointer'}} onClick={onLogout}>Se déconnecter</li>
             </ul>
+          </nav>
+        ) : (
+          <nav className='p-3 px-6' style={{backgroundColor: 'white',height: '100%', borderRadius: '25px'}}>
+            <Link href="/home">Se connecter</Link>
           </nav>
         )}
       </header>
