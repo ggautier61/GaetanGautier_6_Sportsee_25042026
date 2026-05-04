@@ -111,11 +111,13 @@ export default function Dashboard() {
      return `Du ${format(monday)} au ${format(sunday)}`;
    };
 
-   const weekRunningSession = getThisWeekSessions(runningData);
+   const weekRunningSessionNumber = getThisWeekSessions(runningData).length;
+  const totalCalories = runningData.reduce((sum, s) => sum + s.caloriesBurned, 0);
 
-   const totalTempsActiviteThisWeek = user.info?.statistics.totalDuration || 0;
 
+   const totalTempsActiviteThisWeek = getThisWeekSessions(runningData).reduce((sum, s) => sum + s.duration, 0);
    const totalDistanceThisWeek = getThisWeekSessions(runningData).reduce((sum, s) => sum + s.distance, 0);
+   
    const totalDistance = user.info?.statistics.totalDistance || runningData.reduce((sum, s) => sum + s.distance, 0);
 
   //  const recentSessions = getLastWeekSessions(runningData);
@@ -125,7 +127,7 @@ export default function Dashboard() {
    const avgHeartRate = recentSessions.length > 0
      ? Math.round(recentSessions.reduce((sum, s) => sum + s.heartRate.average, 0) / recentSessions.length)
      : 0;
-   const totalCalories = recentSessions.reduce((sum, s) => sum + s.caloriesBurned, 0);
+  //  const totalCalories = recentSessions.reduce((sum, s) => sum + s.caloriesBurned, 0);
    const totalDurationMinutes = recentSessions.reduce((sum, s) => sum + s.duration, 0);
    const hours = Math.floor(totalDurationMinutes / 60);
    const mins = totalDurationMinutes % 60;
@@ -219,7 +221,7 @@ export default function Dashboard() {
                    <div className='flex flex-col justify-between h-full'>
                      <div className='flex flex-col'>
                        <div className="flex items-center gap-2" style={{ height: '48px' }}>
-                         <div style={{ fontSize: 28, fontWeight: 600, color: 'var(--bluesportsee)' }}>x{sessionCount}</div>
+                         <div style={{ fontSize: 28, fontWeight: 600, color: 'var(--bluesportsee)' }}>x{weekRunningSessionNumber}</div>
                          <div style={{ fontSize: 16, fontWeight: 500, color: 'var(--blueclairsportsee)' }}>sur objectifs de 6</div>
                        </div>
                        <p style={{fontSize:14, color: 'var(--grissportsee)'}}>
