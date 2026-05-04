@@ -3,13 +3,18 @@
 import styles from './Header.module.css';
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
-interface HeaderProps {
-  isAuthenticated?: boolean;
-  onLogout?: () => void;
-}
+export function Header() {
+  const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
 
-export function Header({ isAuthenticated = false, onLogout }: HeaderProps) {
+  const handleLogout = () => {
+    logout();
+    router.push('/home');
+  };
+
   return (
     <header
         className="flex justify-between relative w-full overflow-hidden"
@@ -32,7 +37,7 @@ export function Header({ isAuthenticated = false, onLogout }: HeaderProps) {
                 <Link href="/profil">Mon profil</Link>
               </li>
               <li>|</li>
-              <li style={{color: 'blue', cursor: 'pointer'}} onClick={onLogout}>Se déconnecter</li>
+              <li style={{color: 'blue', cursor: 'pointer'}} onClick={handleLogout}>Se déconnecter</li>
             </ul>
           </nav>
         ) : (

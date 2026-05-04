@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Inter } from "next/font/google";
+import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
 
@@ -32,7 +33,10 @@ export default function RootLayout({
       className={`${inter.variable} h-full antialiased`}
     >
       <body className="min-h-[100vh] h-[100vh] flex flex-col items-center">
-        {children}
+        <AuthProvider>
+          {children}
+          {/* <Footer /> */}
+        </AuthProvider>
       </body>
     </html>
   );
