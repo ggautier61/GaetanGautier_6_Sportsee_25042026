@@ -1,10 +1,5 @@
-import { Pie, PieChart, Sector, PieSectorDataItem, Tooltip, TooltipIndex, ResponsiveContainer } from 'recharts';
+import { Pie, PieChart, Sector, PieSectorDataItem, ResponsiveContainer } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
-import { getUserById } from '@/hooks/useUser';
-
-const user = getUserById('user123');
-
-// #region Sample data
 
 
 interface CustomActiveShapePieChartProps {
@@ -22,14 +17,11 @@ const renderActiveShape = ({
   endAngle,
   fill,
   payload,
-  percent,
   value,
 }: PieSectorDataItem) => {
   const RADIAN = Math.PI / 180;
   const sin = Math.sin(-RADIAN * (midAngle ?? 1));
   const cos = Math.cos(-RADIAN * (midAngle ?? 1));
-  const sx = (cx ?? 0) + ((outerRadius ?? 0) + 10) * cos;
-  const sy = (cy ?? 0) + ((outerRadius ?? 0) + 10) * sin;
   const mx = (cx ?? 0) + ((outerRadius ?? 0) + 30) * cos;
   const my = (cy ?? 0) + ((outerRadius ?? 0) + 30) * sin;
   const ex = mx + (cos >= 0 ? 1 : -1) * 22;
@@ -50,7 +42,6 @@ const renderActiveShape = ({
         endAngle={endAngle}
         fill={payload.name === 'realisés' ? "var(--bluesportsee)" : "var(--blueclairsportsee)"}
       />
-
           {value > 0 && (
             <>
               <circle cx={textAnchor === 'start' ? ex - 12 : ex - 115} cy={ey - 5} r={6} 
@@ -59,14 +50,7 @@ const renderActiveShape = ({
                   {value} {payload.name}
               </text>
             </>
-            
           )}
-
-          
-       
-
-     
-      
     </g>
   );
 };
@@ -81,7 +65,6 @@ export default function CustomActiveShapePieChart({ nbSessions }: CustomActiveSh
   return (
   
     <ResponsiveContainer width={500} height={500}>
-
 
       <PieChart
         style={{ width: '100%', maxWidth: '500px', maxHeight: '200px', aspectRatio: 3/1 }}
@@ -102,7 +85,6 @@ export default function CustomActiveShapePieChart({ nbSessions }: CustomActiveSh
         {/* <Tooltip content={() => null} defaultIndex={defaultIndex} /> */}
         <RechartsDevtools />
       </PieChart>
-
 
     </ResponsiveContainer>
 
