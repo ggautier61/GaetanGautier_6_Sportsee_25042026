@@ -47,9 +47,12 @@ const getWeekDates = () => {
 
 function getThisWeekSessions(runningData: RunningData[]): RunningData[] {
   const week = getWeekDates();
-
-  return runningData
-    .filter((s) => new Date(s.date) >= week.dateDebut && new Date(s.date) <= new Date());
+  week.dateDebut.setHours(0, 0, 0, 0);
+  const filteredSessions = runningData.filter((s) => {
+    const sessionDate = new Date(s.date);
+    return sessionDate >= week.dateDebut && sessionDate <= week.dateFin;
+  });
+  return filteredSessions;
 }
 
 function prepareLineChartData(runningData: RunningData[], weeklyGoal: number) {
@@ -95,9 +98,6 @@ export default function Dashboard() {
     return <p>Impossible de charger le profil</p>;
   }
 
-  const memberSince = profile.createdAt ? formatDate(profile.createdAt) : 'Date inconnue';
-  const fullName = `${profile.firstName} ${profile.lastName}`;
-
   const getWeekDatesString = () => {
      const today = new Date();
      const dayOfWeek = today.getDay();
@@ -109,33 +109,18 @@ export default function Dashboard() {
      
      const format = (d: Date) => d.toLocaleDateString('fr-FR');
      return `Du ${format(monday)} au ${format(sunday)}`;
-   };
+  };
 
-   const weekRunningSessionNumber = getThisWeekSessions(runningData).length;
-  const totalCalories = runningData.reduce((sum, s) => sum + s.caloriesBurned, 0);
+    const memberSince = profile.createdAt ? formatDate(profile.createdAt) : 'Date inconnue';
+    const fullName = `${profile.firstName} ${profile.lastName}`;
 
-
+   const totalDistance = user.info?.statistics.totalDistance || runningData.reduce((sum, s) => sum + s.distance, 0);
    const totalTempsActiviteThisWeek = getThisWeekSessions(runningData).reduce((sum, s) => sum + s.duration, 0);
    const totalDistanceThisWeek = getThisWeekSessions(runningData).reduce((sum, s) => sum + s.distance, 0);
+
+   const totalsessionsthisweek =getThisWeekSessions(runningData).length;
+   console.log('totalsessionsthisweek:', totalsessionsthisweek);
    
-   const totalDistance = user.info?.statistics.totalDistance || runningData.reduce((sum, s) => sum + s.distance, 0);
-
-  //  const recentSessions = getLastWeekSessions(runningData);
-      const recentSessions = getLastWeekSessions(runningData);
-
-   const sessionCount = recentSessions.length;
-   const avgHeartRate = recentSessions.length > 0
-     ? Math.round(recentSessions.reduce((sum, s) => sum + s.heartRate.average, 0) / recentSessions.length)
-     : 0;
-  //  const totalCalories = recentSessions.reduce((sum, s) => sum + s.caloriesBurned, 0);
-   const totalDurationMinutes = recentSessions.reduce((sum, s) => sum + s.duration, 0);
-   const hours = Math.floor(totalDurationMinutes / 60);
-   const mins = totalDurationMinutes % 60;
-   const durationStr = hours > 0 ? `${hours}h${mins}` : `${mins}m`;
-
-   const lineChartData = prepareLineChartData(runningData, 2);
-   const barChartData = prepareHeartRateData(runningData);
-
    return (
      <div className="w-full flex flex-col items-center">
        <main className="h-full pt-9" style={{width: "1140px", maxWidth: "1140px",minHeight: '100vh' }}>
@@ -221,14 +206,14 @@ export default function Dashboard() {
                    <div className='flex flex-col justify-between h-full'>
                      <div className='flex flex-col'>
                        <div className="flex items-center gap-2" style={{ height: '48px' }}>
-                         <div style={{ fontSize: 28, fontWeight: 600, color: 'var(--bluesportsee)' }}>x{weekRunningSessionNumber}</div>
+                         <div style={{ fontSize: 28, fontWeight: 600, color: 'var(--bluesportsee)' }}>x{totalsessionsthisweek}</div>
                          <div style={{ fontSize: 16, fontWeight: 500, color: 'var(--blueclairsportsee)' }}>sur objectifs de 6</div>
                        </div>
                        <p style={{fontSize:14, color: 'var(--grissportsee)'}}>
                          Courses hebdomadaire réalisées
                        </p>
                      </div>
-                     <CustomActiveShapePieChart />
+                     <CustomActiveShapePieChart nbSessions={totalsessionsthisweek} />
 
                    </div>
                  </Card>

@@ -5,10 +5,11 @@ import { getUserById } from '@/hooks/useUser';
 const user = getUserById('user123');
 
 // #region Sample data
-const data = [
-  { name: 'restants', value: user?.weeklyGoal ? 6 - user.weeklyGoal : 0 },
-  { name: 'realisés', value: user?.weeklyGoal ? user.weeklyGoal : 0 },
-];
+
+
+interface CustomActiveShapePieChartProps {
+  nbSessions: number;
+}
 
 // #endregion
 const renderActiveShape = ({
@@ -50,13 +51,19 @@ const renderActiveShape = ({
         fill={payload.name === 'realisés' ? "var(--bluesportsee)" : "var(--blueclairsportsee)"}
       />
 
+          {value > 0 && (
+            <>
+              <circle cx={textAnchor === 'start' ? ex - 12 : ex - 115} cy={ey - 5} r={6} 
+                  fill={payload.name === 'realisés' ? "var(--bluesportsee)" : "var(--blueclairsportsee)"} stroke="none" />
+              <text x={ex} y={ey} textAnchor={textAnchor} fill={fill} fontSize={22}>
+                  {value} {payload.name}
+              </text>
+            </>
+            
+          )}
 
+          
        
-           <circle cx={textAnchor === 'start' ? ex - 12 : ex - 115} cy={ey - 5} r={6} 
-               fill={payload.name === 'realisés' ? "var(--bluesportsee)" : "var(--blueclairsportsee)"} stroke="none" />
-           <text x={ex} y={ey} textAnchor={textAnchor} fill={fill} fontSize={22}>
-               {value} {payload.name}
-           </text>
 
      
       
@@ -64,13 +71,13 @@ const renderActiveShape = ({
   );
 };
 
-export default function CustomActiveShapePieChart({
-  isAnimationActive = true,
-  defaultIndex = undefined,
-}: {
-  isAnimationActive?: boolean;
-  defaultIndex?: TooltipIndex;
-}) {
+export default function CustomActiveShapePieChart({ nbSessions }: CustomActiveShapePieChartProps) {
+  
+  const data = [
+  { name: 'restants', value: 6 - nbSessions },
+  { name: 'realisés', value: nbSessions },
+];
+
   return (
   
     <ResponsiveContainer width={500} height={500}>
@@ -78,16 +85,8 @@ export default function CustomActiveShapePieChart({
 
       <PieChart
         style={{ width: '100%', maxWidth: '500px', maxHeight: '200px', aspectRatio: 3/1 }}
-        responsive
+        responsive>
 
-
-        // margin={{
-        //   top: 50,
-        //   right: 120,
-        //   bottom: 0,
-        //   left: 120,
-        // }}
-      >
         <Pie
           cornerRadius={10}
           shape={renderActiveShape}
@@ -98,7 +97,7 @@ export default function CustomActiveShapePieChart({
           outerRadius="60%"
           fill="var(--grissportsee)"
           dataKey="value"
-          isAnimationActive={isAnimationActive}
+          isAnimationActive={true}
         />
         {/* <Tooltip content={() => null} defaultIndex={defaultIndex} /> */}
         <RechartsDevtools />
