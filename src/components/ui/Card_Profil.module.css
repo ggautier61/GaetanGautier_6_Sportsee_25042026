@@ -16,3 +16,8 @@
     line-height: 100%;
     letter-spacing: 0px;
 }
+
+img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}

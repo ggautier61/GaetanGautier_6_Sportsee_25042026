@@ -35,7 +35,7 @@ const renderActiveShape = ({
       <Sector
         cx={cx}
         cy={cy}
-        radius={7}
+        radius="7"
         innerRadius={innerRadius}
         outerRadius={outerRadius}
         startAngle={startAngle}
@@ -71,7 +71,7 @@ export default function CustomActiveShapePieChart({ nbSessions }: CustomActiveSh
         responsive>
 
         <Pie
-          cornerRadius={10}
+          cornerRadius="10%"
           shape={renderActiveShape}
           data={data}
           cx="50%"
