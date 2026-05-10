@@ -147,9 +147,9 @@ export default function Dashboard() {
              <div className="flex gap-8" style={{ height: '484px'}}>
                {/* Graphique Distance par semaine */}
                <div style={{ width: '445px', height: '100%' }}>
-                 <Card className="bg-[white] px-[40px] py-4">
+                 <Card className="bg-[white] px-[40px] py-6">
 
-                   <div className='flex flex-col justify-between h-full'>
+                   <div className='flex flex-col h-full'>
                      <div className='flex flex-col'>
                        <div className="flex items-center justify-between" style={{ height: '48px' }}>
                          <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--bluesportsee)' }}>18km en moyenne</div>
@@ -170,9 +170,9 @@ export default function Dashboard() {
 
                {/* Graphique Rythme cardiaque par jour */}
                <div style={{ flex: 1 , height: '100%'}}>                 
-                 <Card className="bg-[white] px-[40px] py-4">
-                   <div className='flex flex-col justify-between h-full'>
-                     <div className='flex flex-col'>
+                 <Card className="bg-[white] px-[40px] py-6">
+                   <div className='flex flex-col h-full'>
+                     <div className='flex flex-col mb-[40px]'>
                        <div className="flex items-center justify-between" style={{ height: '48px' }}>
                          <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--rougesportsee)' }}>163 BPM</div>
                          <WeekSelector />

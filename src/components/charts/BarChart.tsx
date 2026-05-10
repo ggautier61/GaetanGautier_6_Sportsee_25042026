@@ -10,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
   Line,
+  LineChart,
   
 } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
@@ -25,7 +26,8 @@ type ChartType = 'distance' | 'heartRate';
 
 interface BarChartProps {
   type: ChartType;
-  title?: string;
+  startingDate?: string;
+  endingDate?: string;
 }
 
 interface ChartData {
@@ -154,7 +156,7 @@ function processHeartRateData(runningData: any[], weekOffset: number): ChartData
   });
 }
 
-export function BarChart({ type, title }: BarChartProps) {
+export function BarChart({ type, startingDate, endingDate  }: BarChartProps) {
   const [selectedWeek, setSelectedWeek] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   
@@ -165,7 +167,6 @@ export function BarChart({ type, title }: BarChartProps) {
   if (data.length === 0) {
     return (
       <div className={styles.chartContainer}>
-        {title && <h3 className={styles.chartTitle}>{title}</h3>}
         <p>Aucune donnée disponible</p>
       </div>
     );
@@ -173,29 +174,8 @@ export function BarChart({ type, title }: BarChartProps) {
 
   return (
     <div className={styles.chartContainer}>
-      <div className={styles.chartHeader}>
-        {title && <h3 className={styles.chartTitle}>{title}</h3>}
-        {type === 'heartRate' && (
-          <div className={styles.weekSelector}>
-            <button 
-              className={styles.weekArrow}
-              onClick={() => setSelectedWeek(prev => prev + 1)}
-              // disabled={selectedWeek >= 10}
-            >
-              <Image src="/assets/arrow-left.png" width={4} height={8} alt="Précédent" />
-            </button>
-            <span className={styles.weekLabel}>{formatWeekRange(selectedWeek)}</span>
-            <button 
-              className={styles.weekArrow}
-              onClick={() => setSelectedWeek(prev => prev - 1)}
-              disabled={selectedWeek === 0}
-            >
-              <Image src="/assets/arrow-right.png" width={4} height={8} alt="Suivant" />
-            </button>
-          </div>
-        )}
-      </div>
-      <ResponsiveContainer width="100%" height={ '100%' }>
+
+      <ResponsiveContainer width="100%" height='100%'>
         <ComposedChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}>
@@ -212,14 +192,15 @@ export function BarChart({ type, title }: BarChartProps) {
             tickLine={false}
           />
  
-          <Legend />
-          {/* <Legend content={<CustomLegend />} /> */}
+          {/* <Legend stroke="green" iconType={1===2 ? "line" : 'circle'}/> */}
+          {/* <Legend stroke="var(--grissportsee)"/> */}
+          <Legend align="left" content={<CustomLegend />} />
           {type === 'distance' ? (
             <Bar 
               dataKey="value" 
               name="Km"
               fill="#B6BDFC" 
-              legendType='circle'
+              // legendType='circle'
               radius={[7, 7, 7, 7]}
               barSize={14}
             />
@@ -244,13 +225,14 @@ export function BarChart({ type, title }: BarChartProps) {
                 barSize={14}
                 legendType='circle'
               />
+              
               <Line type="monotone" 
                   dataKey="average" 
                   name="Average BPM" 
-                  stroke={isHovered ? "#0B23F4" : "grey"}
+                  stroke={isHovered ? "#0B23F4" : "var(--grisclairsportsee)"}
                   strokeWidth={3}
-                  dot={{ stroke: "white", fill: "#0B23F4", strokeWidth: 1, r: 4 }}
-                  activeDot={{ stroke: "#0B23F4", fill: "#0B23F4", r: 4 }} />
+                  dot={{ stroke: "white", fill: "var(--bluesportsee)", strokeWidth: 1, r: 4 }}
+                  activeDot={{ stroke: "var(--bluesportsee)", fill: "var(--bluesportsee)", r: 4 }} />
               
             </>
           )}
