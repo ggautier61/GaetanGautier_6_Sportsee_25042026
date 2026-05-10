@@ -26,8 +26,8 @@ type ChartType = 'distance' | 'heartRate';
 
 interface BarChartProps {
   type: ChartType;
-  startingDate?: string;
-  endingDate?: string;
+  startingDate: string;
+  endingDate: string;
 }
 
 interface ChartData {
@@ -54,71 +54,42 @@ function formatDate(dateStr: string): string {
   return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
 }
 
-function processDistanceData(runningData: any[]) {
-  const today = new Date();
-  const fourWeeksAgo = new Date(today);
-  fourWeeksAgo.setDate(today.getDate() - 72);
+function processDistanceData(runningData: any[], startingDate: string, endingDate: string): ChartData[] {
+  const start = new Date(startingDate);
 
-  const filtered = runningData.filter((run) => {
-    const date = new Date(run.date);
-    return date >= fourWeeksAgo && date <= today;
-  });
+  const result: ChartData[] = [];
 
-  const weeklyData: { [key: string]: number } = {};
-  
-  filtered.forEach((run) => {
-    const date = new Date(run.date);
-    const weekStart = new Date(date);
-    weekStart.setDate(date.getDate() - date.getDay() + 1);
-    const weekKey = `S${getWeekNumber(weekStart)}`;
-    
-    if (!weeklyData[weekKey]) {
-      weeklyData[weekKey] = 0;
-    }
-    weeklyData[weekKey] += run.distance;
-  });
+  for (let i = 0; i < 4; i++) {
+    const weekStart = new Date(start);
+    weekStart.setDate(start.getDate() + i * 7);
+    weekStart.setHours(0, 0, 0, 0);
 
-  return Object.entries(weeklyData).map(([name, value]) => ({
-    name,
-    value: Math.round(value * 10) / 10,
-  })) as ChartData[];
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    weekEnd.setHours(23, 59, 59, 999);
+
+    let total = 0;
+    runningData.forEach((run) => {
+      const runDate = new Date(run.date);
+      if (runDate >= weekStart && runDate <= weekEnd) {
+        total += run.distance;
+      }
+    });
+
+    result.push({
+      name: `S${i + 1}`,
+      value: Math.round(total * 10) / 10,
+    });
+  }
+
+  return result;
 }
 
-function getWeekDates(weekOffset: number): { start: Date; end: Date } {
-  const today = new Date();
-  const currentDay = today.getDay();
-  const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
-  
-  const weekStart = new Date(today);
-  weekStart.setDate(today.getDate() - weekOffset * 7 + mondayOffset);
-  
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekStart.getDate() + 6);
-  
-  return { start: weekStart, end: weekEnd };
-}
-
-function formatWeekRange(weekOffset: number): string {
-  const { start, end } = getWeekDates(weekOffset);
-  const startStr = start.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
-  const endStr = end.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
-  return `${startStr} - ${endStr}`;
-}
-
-function processHeartRateData(runningData: any[], weekOffset: number): ChartData[] {
-  const today = new Date().toLocaleDateString('fr-FR');
-  // today = new Date(today);
-
-  
-  const currentDay = new Date().getDay();
-  const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
-  
-  const weekStart = new Date();
-  weekStart.setDate(new Date().getDate() - weekOffset * 7 + mondayOffset);
+function processHeartRateData(runningData: any[], startingDate: string, endingDate: string): ChartData[] {
+  const weekStart = new Date(startingDate);
   weekStart.setHours(0, 0, 0, 0);
   
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekStart.getDate() + 6)
+  const weekEnd = new Date(endingDate);
   weekEnd.setHours(23, 59, 59, 999);
 
   const weekRuns: { [key: number]: any } = {};
@@ -157,12 +128,11 @@ function processHeartRateData(runningData: any[], weekOffset: number): ChartData
 }
 
 export function BarChart({ type, startingDate, endingDate  }: BarChartProps) {
-  const [selectedWeek, setSelectedWeek] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   
   const data = type === 'distance' 
-    ? processDistanceData(runningData[0].runningData)
-    : processHeartRateData(runningData[0].runningData, selectedWeek);
+    ? processDistanceData(runningData[0].runningData, startingDate, endingDate)
+    : processHeartRateData(runningData[0].runningData, startingDate, endingDate);
 
   if (data.length === 0) {
     return (
@@ -176,9 +146,10 @@ export function BarChart({ type, startingDate, endingDate  }: BarChartProps) {
     <div className={styles.chartContainer}>
 
       <ResponsiveContainer width="100%" height='100%'>
-        <ComposedChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
+        <ComposedChart data={data}
           onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}>
+          onMouseLeave={() => setIsHovered(false)}
+          margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
           <XAxis 
             dataKey="name" 
@@ -191,10 +162,9 @@ export function BarChart({ type, startingDate, endingDate  }: BarChartProps) {
             axisLine={true}
             tickLine={false}
           />
- 
-          {/* <Legend stroke="green" iconType={1===2 ? "line" : 'circle'}/> */}
-          {/* <Legend stroke="var(--grissportsee)"/> */}
+
           <Legend align="left" content={<CustomLegend />} />
+
           {type === 'distance' ? (
             <Bar 
               dataKey="value" 

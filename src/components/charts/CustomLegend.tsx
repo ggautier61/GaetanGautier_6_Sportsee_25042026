@@ -45,29 +45,6 @@ const CustomLegend = (props: any) => {
         );
       })}
     </ul>
-
-
-
-    // <ul className="flex gap-6 list-none p-0 m-0">
-    //   {sorted.map((entry: any, index: number) => (
-    //     <li key={index} className="flex items-center gap-2">
-    //       <svg></svg>
-    //       <span
-    //         style={{
-    //           // backgroundColor: entry.color, 
-    //           backgroundColor: entry.dataKey == "average" ? "var(--bluesportsee)" : entry.color, 
-
-    //           // backgroundColor: `${entry.dataKey} == "average" ? "blue" : ${entry.color}`, 
-    //           width: 8,
-    //           height: 8,
-    //           borderRadius: "50%",
-    //           display: "inline-block",
-    //         }}
-    //       />
-    //       <span style={{ color: 'var(--grissportsee)', fontSize: 12, fontWeight: 400 }}>{entry.value}</span>
-    //     </li>
-    //   ))}
-    // </ul>
   );
 };
 

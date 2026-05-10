@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { StatCard } from '@/components/ui/StatCard';
@@ -11,7 +11,7 @@ import { Card_IA } from '@/components/ui/Card_IA';
 import Card_Profil from '@/components/ui/Card_Profil';
 import { Footer } from '@/components/layout/Footer';
 import CustomActiveShapePieChart from '@/components/charts/Pie';
-import { WeekSelector } from '@/components/ui/Week_Selector';
+import { WeekSelector, getWeekDates } from '@/components/ui/Week_Selector';
 import Card_Distance from '@/components/ui/Card_Distance';
 import { useAuth } from '@/context/AuthContext';
 
@@ -33,24 +33,14 @@ function getLastWeekSessions(runningData: RunningData[]): RunningData[] {
     .slice(-7);
 }
 
-const getWeekDates = () => {
-     const today = new Date();
-     const dayOfWeek = today.getDay();
-     const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-     const monday = new Date(today);
-     monday.setDate(today.getDate() + mondayOffset);
-     const sunday = new Date(monday);
-     sunday.setDate(monday.getDate() + 6);
-
-     return {dateDebut: monday, dateFin: sunday};
-   };
-
 function getThisWeekSessions(runningData: RunningData[]): RunningData[] {
-  const week = getWeekDates();
-  week.dateDebut.setHours(0, 0, 0, 0);
+  const week = getWeekDates(0);
+  week.start.setHours(0, 0, 0, 0);
+  const weekEnd = new Date(week.end);
+  weekEnd.setHours(23, 59, 59, 999);
   const filteredSessions = runningData.filter((s) => {
     const sessionDate = new Date(s.date);
-    return sessionDate >= week.dateDebut && sessionDate <= week.dateFin;
+    return sessionDate >= week.start && sessionDate <= weekEnd;
   });
   return filteredSessions;
 }
@@ -80,6 +70,9 @@ function formatDate(dateStr: string): string {
 export default function Dashboard() {
   const router = useRouter();
   const { user, isAuthenticated, isLoading, logout } = useAuth();
+
+  const [distanceWeek, setDistanceWeek] = useState(0);
+  const [heartWeek, setHeartWeek] = useState(0);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -119,7 +112,11 @@ export default function Dashboard() {
    const totalDistanceThisWeek = getThisWeekSessions(runningData).reduce((sum, s) => sum + s.distance, 0);
 
    const totalsessionsthisweek =getThisWeekSessions(runningData).length;
-   console.log('totalsessionsthisweek:', totalsessionsthisweek);
+
+   const distanceStart = getWeekDates(distanceWeek + 3).start.toISOString();
+   const distanceEnd = getWeekDates(distanceWeek).end.toISOString();
+   const heartStart = getWeekDates(heartWeek).start.toISOString();
+   const heartEnd = getWeekDates(heartWeek).end.toISOString();
    
    return (
      <div className="w-full flex flex-col items-center">
@@ -150,17 +147,17 @@ export default function Dashboard() {
                  <Card className="bg-[white] px-[40px] py-6">
 
                    <div className='flex flex-col h-full'>
-                     <div className='flex flex-col'>
-                       <div className="flex items-center justify-between" style={{ height: '48px' }}>
-                         <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--bluesportsee)' }}>18km en moyenne</div>
-                         <WeekSelector />
-                       </div>
-                       <p style={{fontSize:12, color: 'var(--grissportsee)'}}>
-                         Total des kilomètres 4 dernières semaines
-                       </p>
-                     </div>
+                     <div className='flex flex-col mb-[40px]'>
+                        <div className="flex items-center justify-between" style={{ height: '48px' }}>
+                          <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--bluesportsee)' }}>18km en moyenne</div>
+                          <WeekSelector selectedWeek={distanceWeek} onWeekChange={setDistanceWeek} rangeWeeks={4} />
+                        </div>
+                        <p style={{fontSize:12, color: 'var(--grissportsee)'}}>
+                          Total des kilomètres 4 dernières semaines
+                        </p>
+                      </div>
 
-                     <BarChart type="distance" />
+                      <BarChart type="distance" startingDate={distanceStart} endingDate={distanceEnd} />
 
                    </div>
                    
@@ -173,16 +170,16 @@ export default function Dashboard() {
                  <Card className="bg-[white] px-[40px] py-6">
                    <div className='flex flex-col h-full'>
                      <div className='flex flex-col mb-[40px]'>
-                       <div className="flex items-center justify-between" style={{ height: '48px' }}>
-                         <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--rougesportsee)' }}>163 BPM</div>
-                         <WeekSelector />
-                       </div>
-                       <p style={{fontSize:12, color: 'var(--grissportsee)'}}>
-                         Fréquence cardiaque moyenne
-                       </p>
-                     </div>
+                        <div className="flex items-center justify-between" style={{ height: '48px' }}>
+                          <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--rougesportsee)' }}>163 BPM</div>
+                          <WeekSelector selectedWeek={heartWeek} onWeekChange={setHeartWeek} />
+                        </div>
+                        <p style={{fontSize:12, color: 'var(--grissportsee)'}}>
+                          Fréquence cardiaque moyenne
+                        </p>
+                      </div>
 
-                     <BarChart type="heartRate" />
+                      <BarChart type="heartRate" startingDate={heartStart} endingDate={heartEnd} />
 
                    </div>
                    
