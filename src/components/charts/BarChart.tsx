@@ -10,15 +10,12 @@ import {
   Legend,
   ResponsiveContainer,
   Line,
-  LineChart,
-  
 } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
 
 
 
 import styles from './BarChart.module.css';
-//import runningData from '../../../mocks/data.json';
 import CustomLegend from './CustomLegend';
 import Image from "next/image";
 import { useAuth } from '@/context/AuthContext';

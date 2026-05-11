@@ -45,23 +45,6 @@ function getThisWeekSessions(runningData: RunningData[]): RunningData[] {
   return filteredSessions;
 }
 
-function prepareLineChartData(runningData: RunningData[], weeklyGoal: number) {
-  const sessions = getLastWeekSessions(runningData);
-  return sessions.map((s) => ({
-    date: s.date,
-    actual: s.distance,
-    goal: weeklyGoal,
-  }));
-}
-
-function prepareHeartRateData(runningData: RunningData[]) {
-  const sessions = getLastWeekSessions(runningData);
-  return sessions.map((s) => ({
-    name: new Date(s.date).toLocaleDateString('fr-FR', { weekday: 'short' }),
-    value: s.heartRate.average,
-  }));
-}
-
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
   return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });

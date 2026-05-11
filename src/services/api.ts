@@ -1,5 +1,3 @@
-import { start } from "repl";
-
 const API_BASE_URL = 'http://localhost:8000';
 
 const TOKEN_COOKIE_NAME = 'authToken';

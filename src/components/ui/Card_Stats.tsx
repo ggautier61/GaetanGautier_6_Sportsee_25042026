@@ -1,5 +1,4 @@
 import Image from "next/image";
-import styles from './Card_Profil.module.css';
 import { Card } from "./Card";
 
 
