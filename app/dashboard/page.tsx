@@ -117,6 +117,22 @@ export default function Dashboard() {
    const distanceEnd = getWeekDates(distanceWeek).end.toISOString();
    const heartStart = getWeekDates(heartWeek).start.toISOString();
    const heartEnd = getWeekDates(heartWeek).end.toISOString();
+
+   const distanceRuns = runningData.filter(run => {
+     const d = new Date(run.date);
+     return d >= getWeekDates(distanceWeek + 3).start && d <= getWeekDates(distanceWeek).end;
+   });
+   const avgDistance = distanceRuns.length > 0
+     ? Math.round(distanceRuns.reduce((s, r) => s + r.distance, 0) / distanceRuns.length)
+     : 0;
+
+   const heartRuns = runningData.filter(run => {
+     const d = new Date(run.date);
+     return d >= getWeekDates(heartWeek).start && d <= getWeekDates(heartWeek).end;
+   });
+   const avgBpm = heartRuns.length > 0
+     ? Math.round(heartRuns.reduce((s, r) => s + r.heartRate.average, 0) / heartRuns.length)
+     : 0;
    
    return (
      <div className="w-full flex flex-col items-center">
@@ -144,12 +160,12 @@ export default function Dashboard() {
              <div className="flex gap-8" style={{ height: '484px'}}>
                {/* Graphique Distance par semaine */}
                <div style={{ width: '445px', height: '100%' }}>
-                 <Card className="bg-[white] px-[40px] py-6">
+                 <Card className="bg-[white] px-[40px] py-6" style={{height: '100%'}}>
 
                    <div className='flex flex-col h-full'>
                      <div className='flex flex-col mb-[40px]'>
                         <div className="flex items-center justify-between" style={{ height: '48px' }}>
-                          <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--bluesportsee)' }}>18km en moyenne</div>
+                          <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--bluesportsee)' }}>{avgDistance}km en moyenne</div>
                           <WeekSelector selectedWeek={distanceWeek} onWeekChange={setDistanceWeek} rangeWeeks={4} />
                         </div>
                         <p style={{fontSize:12, color: 'var(--grissportsee)'}}>
@@ -167,11 +183,11 @@ export default function Dashboard() {
 
                {/* Graphique Rythme cardiaque par jour */}
                <div style={{ flex: 1 , height: '100%'}}>                 
-                 <Card className="bg-[white] px-[40px] py-6">
+                 <Card className="bg-[white] px-[40px] py-6" style={{height: '100%'}}>
                    <div className='flex flex-col h-full'>
                      <div className='flex flex-col mb-[40px]'>
                         <div className="flex items-center justify-between" style={{ height: '48px' }}>
-                          <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--rougesportsee)' }}>163 BPM</div>
+                          <div style={{ fontSize: 22, fontWeight: 500, color: 'var(--rougesportsee)' }}>{avgBpm} BPM</div>
                           <WeekSelector selectedWeek={heartWeek} onWeekChange={setHeartWeek} />
                         </div>
                         <p style={{fontSize:12, color: 'var(--grissportsee)'}}>
@@ -234,7 +250,7 @@ export default function Dashboard() {
                        Distance
                      </div>
                      <div className='flex gap-2 items-center'>
-                       <div style={{fontSize: 22, fontWeight: 500, color:'var(--rougesportsee)'}}>{totalDistanceThisWeek}</div>
+                       <div style={{fontSize: 22, fontWeight: 500, color:'var(--rougesportsee)'}}>{totalDistanceThisWeek.toFixed(1)}</div>
                        <div style={{fontSize: 16, fontWeight: 500, color:'var(--rougeclairsportsee)'}}>kilomètres</div>
                      </div>
                    

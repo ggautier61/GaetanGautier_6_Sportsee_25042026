@@ -16,10 +16,12 @@ import {
 import { RechartsDevtools } from '@recharts/devtools';
 
 
+
 import styles from './BarChart.module.css';
-import runningData from '../../../mocks/data.json';
+//import runningData from '../../../mocks/data.json';
 import CustomLegend from './CustomLegend';
 import Image from "next/image";
+import { useAuth } from '@/context/AuthContext';
 
 
 type ChartType = 'distance' | 'heartRate';
@@ -129,10 +131,12 @@ function processHeartRateData(runningData: any[], startingDate: string, endingDa
 
 export function BarChart({ type, startingDate, endingDate  }: BarChartProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const { user } = useAuth();
+  
   
   const data = type === 'distance' 
-    ? processDistanceData(runningData[0].runningData, startingDate, endingDate)
-    : processHeartRateData(runningData[0].runningData, startingDate, endingDate);
+    ? processDistanceData(user?.activity || [], startingDate, endingDate)
+    : processHeartRateData(user?.activity || [], startingDate, endingDate);
 
   if (data.length === 0) {
     return (
